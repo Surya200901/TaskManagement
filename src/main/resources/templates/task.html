@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <title>Task Management</title>
+    <style>
+        /* Basic styles for modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .modal-header {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .modal-footer {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Task Management</h1>
+        <nav>
+            <ul>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/task/task">Tasks</a></li>
+                <li><a href="/login">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <h2>Create Task</h2>
+    <form th:action="@{/task/create}" method="POST">
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title" required><br><br>
+
+        <label for="description">Description:</label>
+        <textarea name="description" id="description" required></textarea><br><br>
+
+        <label for="deadline">Deadline:</label>
+        <input type="datetime-local" name="deadline" id="deadline" required><br><br>
+
+        <label for="category">Category:</label>
+        <input type="text" name="category" id="category" required><br><br>
+
+        <label for="priority">Priority:</label>
+        <select name="priority" id="priority">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select><br><br>
+
+        <button type="submit">Create Task</button>
+    </form>
+
+    <h2>Task List</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Deadline</th>
+                <th>Category</th>
+                <th>Priority</th>
+                <th>Completed</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="task : ${tasks}" th:id="'task-' + ${task.id}">
+                <td class="task-title" th:text="${task.title}"></td>
+                <td class="task-description" th:text="${task.description}"></td>
+                <td class="task-deadline" th:text="${task.deadline}"></td>
+                <td class="task-category" th:text="${task.category}"></td>
+                <td class="task-priority" th:text="${task.priority}"></td>
+				<td>
+				    <input type="checkbox" th:checked="${task.completed}"
+				           th:id="'completed-' + ${task.id}" 
+				           th:onclick="'updateCompletionStatus(' + ${task.id} + ')'" />
+				</td>
+                <td>
+					<button type="button" th:onclick="'editTask(\'' + ${task.id} + '\')'">Edit</button>
+                    <a th:href="@{/task/delete/{id}(id=${task.id})}">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <footer>
+        <p>Task Management System © 2025</p>
+    </footer>
+
+    <!-- Modal for editing task -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">Edit Task</div>
+            <div class="modal-body">
+                <form id="editTaskForm">
+                    <input type="hidden" id="editTaskId">
+                    <label for="editTitle">Title:</label>
+                    <input type="text" id="editTitle" required><br><br>
+
+                    <label for="editDescription">Description:</label>
+                    <textarea id="editDescription" required></textarea><br><br>
+
+                    <label for="editDeadline">Deadline:</label>
+                    <input type="datetime-local" id="editDeadline" required><br><br>
+
+                    <label for="editCategory">Category:</label>
+                    <input type="text" id="editCategory" required><br><br>
+
+                    <label for="editPriority">Priority:</label>
+                    <select id="editPriority">
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select><br><br>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button onclick="saveTask()">Save</button>
+                <button onclick="closeModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+		const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+		const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+		console.log("CSRF Token:", csrfToken);
+		console.log("CSRF Header:", csrfHeader);
+
+        const modal = document.getElementById("editModal");
+
+        function editTask(id) {
+            const taskRow = document.getElementById(`task-${id}`);
+            if (taskRow) {
+                document.getElementById("editTaskId").value = id;
+                document.getElementById("editTitle").value = taskRow.querySelector(".task-title").textContent.trim();
+                document.getElementById("editDescription").value = taskRow.querySelector(".task-description").textContent.trim();
+                document.getElementById("editDeadline").value = taskRow.querySelector(".task-deadline").textContent.trim();
+                document.getElementById("editCategory").value = taskRow.querySelector(".task-category").textContent.trim();
+                document.getElementById("editPriority").value = taskRow.querySelector(".task-priority").textContent.trim();
+
+                modal.style.display = "flex";
+            } else {
+                alert("Task not found!");
+            }
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+		function saveTask() {
+		    const id = document.getElementById("editTaskId").value;
+		    const title = document.getElementById("editTitle").value;
+		    const description = document.getElementById("editDescription").value;
+		    const deadline = document.getElementById("editDeadline").value;
+		    const category = document.getElementById("editCategory").value;
+		    const priority = document.getElementById("editPriority").value;
+
+		    const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+
+		    fetch(`/task/update/${id}`, {
+		        method: "POST",
+		        headers: {
+		            "Content-Type": "application/json",
+		            "X-CSRF-TOKEN": csrfToken // CSRF token is included in headers
+		        },
+		        body: JSON.stringify({ title, description, deadline, category, priority })
+		    })
+		    .then(response => {
+		        if (response.ok) {
+		            alert("Task updated successfully!");
+		            location.reload();
+		        } else {
+		            alert("Failed to update task.");
+		        }
+		    })
+		    .catch(error => console.error("Error updating task:", error))
+		    .finally(() => closeModal());
+		}
+		
+		function updateCompletionStatus(id) {
+		            const checkbox = document.getElementById("completed-" + id);
+		            const completed = checkbox.checked;
+
+		            console.log("Updating completion status for task ID:", id, "to:", completed);
+
+		            // Retrieve CSRF token and header name from meta tags
+		            const csrfTokenElement = document.querySelector('meta[name="_csrf"]');
+		            const csrfHeaderElement = document.querySelector('meta[name="_csrf_header"]');
+
+		            if (!csrfTokenElement || !csrfHeaderElement) {
+		                console.error("CSRF token or header meta tag is missing in the HTML!");
+		                return;
+		            }
+
+		            const csrfToken = csrfTokenElement.content;
+		            const csrfHeader = csrfHeaderElement.content;
+
+		            console.log("CSRF Token:", csrfToken);
+		            console.log("CSRF Header:", csrfHeader);
+
+		            if (!csrfToken || !csrfHeader) {
+		                console.error("CSRF token or header value is empty!");
+		                return;
+		            }
+
+		            // Create headers object
+		            const headers = {
+		                "Content-Type": "application/json",
+		                [csrfHeader]: csrfToken // Dynamically set the CSRF header
+		            };
+
+		            console.log("Headers:", headers);
+
+		            fetch(`/task/update-completed/${id}`, {
+		                method: "POST",
+		                headers: headers,
+		                body: JSON.stringify({ completed })
+		            })
+		            .then(response => {
+		                if (!response.ok) {
+		                    return response.text().then(text => { throw new Error(text); });
+		                }
+		                console.log("Task status updated successfully.");
+		                location.reload(); // Reload the page to reflect the updated state
+		            })
+		            .catch(error => console.error("Error updating task status:", error));
+		        }
+
+    </script>
+</body>
+</html>
