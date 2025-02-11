@@ -9,11 +9,18 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column(nullable = false, unique = true)
     private String username;
+    
+    @Column(nullable = false)
     private String password;
 
     @OneToMany(mappedBy = "user")
     private List<Task> tasks;
+    
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Profile profile;
 
     // Getter and Setter for id
     public Long getId() {
@@ -50,4 +57,7 @@ public class User {
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
+    
+    public Profile getProfile() { return profile; }
+    public void setProfile(Profile profile) { this.profile = profile; }
 }

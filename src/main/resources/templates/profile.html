@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+</head>
+<body>
+
+<header>
+    <h1>User Profile</h1>
+    <nav>
+        <ul>
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section>
+    <h2>Profile Details</h2>
+
+    <!-- Success Message -->
+    <p th:if="${profileUpdated}" style="color: green;">Profile updated successfully!</p>
+
+    <form id="profileForm" th:action="@{/profile/update}" method="post" th:object="${profile}">
+        <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" th:field="*{user.id}"/>
+
+        <label>Username:</label>
+        <input type="text" th:field="*{user.username}" readonly />
+
+        <label>Full Name:</label>
+        <input type="text" th:field="*{fullName}" required />
+
+        <label>Email:</label>
+        <input type="email" th:field="*{email}" required />
+
+        <label>Phone:</label>
+        <input type="text" th:field="*{phone}" required />
+
+        <label>Address:</label>
+        <textarea th:field="*{address}" required></textarea>
+
+        <button type="submit">Update Profile</button>
+    </form>
+
+    <!-- Display Updated Profile Below Button -->
+    <div>
+        <h3>Updated Profile Details:</h3>
+        <p><strong>Full Name:</strong> <span th:text="${profile.fullName}"></span></p>
+        <p><strong>Email:</strong> <span th:text="${profile.email}"></span></p>
+        <p><strong>Phone:</strong> <span th:text="${profile.phone}"></span></p>
+        <p><strong>Address:</strong> <span th:text="${profile.address}"></span></p>
+    </div>
+
+</section>
+
+<footer>
+    <p>Task Management System © 2025</p>
+</footer>
+
+</body>
+</html>

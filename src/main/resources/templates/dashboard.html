@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,18 +8,41 @@
 <body>
     <header>
         <h1>Task Management Dashboard</h1>
+		<section>
+		        <h1>Welcome, <span th:text="${user.username}"></span>!</h1>
+		        <p>Manage your tasks and track your progress from here.</p>
+		</section>
         <nav>
             <ul>
                 <li><a href="/task/task">Tasks</a></li> <!-- Link to task management page -->
-                <li><a href="/#">Profile</a></li> <!-- Link to profile page -->
-                <li><a href="/#">Logout</a></li> <!-- Link to logout -->
+                <li><a href="/profile">Profile</a></li> <!-- Link to profile page -->
+                <li><a href="/logout">Logout</a></li> <!-- Link to logout -->
             </ul>
         </nav>
     </header>
 
     <section>
-        <h2>Welcome, <span id="username">User</span>!</h2>
-        <p>Manage your tasks and track your progress from here.</p>
+        <h2>Your Tasks</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Deadline</th>
+                    <th>Priority</th>
+                    <th>Completed</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="task : ${tasks}">
+                    <td th:text="${task.title}"></td>
+                    <td th:text="${task.description}"></td>
+                    <td th:text="${task.deadline}"></td>
+                    <td th:text="${task.priority}"></td>
+                    <td><input type="checkbox" th:checked="${task.completed}" disabled></td>
+                </tr>
+            </tbody>
+        </table>
     </section>
 
     <footer>
