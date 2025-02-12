@@ -3,11 +3,205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="_csrf" th:content="${_csrf.token}" />
-	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
     <title>Task Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-        /* Basic styles for modal */
+        /* Global Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1E3A8A, #4F46E5);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border-bottom: 4px solid #4F46E5;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        /* Navigation */
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        nav ul li a:hover {
+            background: #9333EA;
+            transform: scale(1.1);
+        }
+
+        /* Main Content */
+        h2 {
+            text-align: center;
+            color: #1E3A8A;
+            margin: 20px 0;
+            font-size: 24px;
+        }
+
+        /* Form Styles */
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #4F46E5;
+        }
+
+        input[type="text"],
+        textarea,
+        input[type="datetime-local"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease-in-out;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus,
+        input[type="datetime-local"]:focus,
+        select:focus {
+            border-color: #4F46E5;
+            outline: none;
+        }
+
+        button[type="submit"] {
+            background: #4F46E5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        button[type="submit"]:hover {
+            background: #1E3A8A;
+            transform: scale(1.05);
+        }
+
+        /* Task Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            animation: slideIn 1s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        table th, table td {
+            padding: 15px;
+            text-align: center;
+        }
+
+        table th {
+            background: #4B5563;
+            color: white;
+        }
+
+        table tbody tr {
+            transition: background 0.3s ease-in-out;
+        }
+
+        table tbody tr:hover {
+            background: #E0E7FF;
+        }
+
+
+        /* Checkbox */
+        input[type="checkbox"] {
+            transform: scale(1.5);
+            cursor: pointer;
+        }
+		
+		/* Ensuring input fields and title stay inside the container */
+		    .task-container {
+		        max-width: 600px;
+		        margin: auto;
+		        padding: 20px;
+		        background: white;
+		        border-radius: 10px;
+		        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+		        overflow: hidden;
+		    }
+
+		    input, textarea, select {
+		        width: 100%;
+		        box-sizing: border-box;
+		    }
+
+		    /* Priority-based colors */
+		    .task-priority-high {
+		        background-color: #ffcccc;
+		    }
+
+		    .task-priority-medium {
+		        background-color: #fff3cd;
+		    }
+
+		    .task-priority-low {
+		        background-color: #d4edda;
+		    }
+
+        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -21,34 +215,73 @@
             justify-content: center;
             align-items: center;
         }
+
         .modal-content {
-            background-color: white;
+            background: white;
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 10px;
             width: 50%;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            animation: modalFadeIn 0.5s ease-in-out;
         }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .modal-header {
             font-size: 20px;
             font-weight: bold;
+            color: #1E3A8A;
+            margin-bottom: 15px;
         }
+
         .modal-footer {
             text-align: right;
+            margin-top: 15px;
+        }
+
+        .modal-footer button {
+            background: #4F46E5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .modal-footer button:hover {
+            background: #1E3A8A;
+        }
+
+        /* Footer */
+        footer {
+            background: #1E3A8A;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-weight: bold;
+            border-top: 4px solid #4F46E5;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Task Management</h1>
+        <h1><i class="fas fa-tasks"></i> Task Management</h1>
         <nav>
             <ul>
-                <li><a href="/dashboard">Dashboard</a></li>
-                <li><a href="/task/task">Tasks</a></li>
-                <li><a href="/login">Logout</a></li>
+                <li><a href="/dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="/task/task"><i class="fas fa-plus-circle"></i> Tasks</a></li>
+                <li><a href="/login"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </nav>
     </header>
-
+	
+	<div class="task-container">
     <h2>Create Task</h2>
     <form th:action="@{/task/create}" method="POST">
         <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
@@ -73,6 +306,7 @@
 
         <button type="submit">Create Task</button>
     </form>
+	</div>
 
     <h2>Task List</h2>
     <table>
@@ -94,14 +328,14 @@
                 <td class="task-deadline" th:text="${task.deadline}"></td>
                 <td class="task-category" th:text="${task.category}"></td>
                 <td class="task-priority" th:text="${task.priority}"></td>
-				<td>
-				    <input type="checkbox" th:checked="${task.completed}"
-				           th:id="'completed-' + ${task.id}" 
-				           th:onclick="'updateCompletionStatus(' + ${task.id} + ')'" />
-				</td>
                 <td>
-					<button type="button" th:onclick="'editTask(\'' + ${task.id} + '\')'">Edit</button>
-                    <a th:href="@{/task/delete/{id}(id=${task.id})}">Delete</a>
+                    <input type="checkbox" th:checked="${task.completed}"
+                           th:id="'completed-' + ${task.id}" 
+                           th:onclick="'updateCompletionStatus(' + ${task.id} + ')'" />
+                </td>
+                <td>
+                    <button type="button" th:onclick="'editTask(\'' + ${task.id} + '\')'"> Edit</button>
+					<a th:href="@{/task/delete/{id}(id=${task.id})}" onclick="return confirmDelete(event, this)"> Delete</a>
                 </td>
             </tr>
         </tbody>
@@ -146,11 +380,6 @@
     </div>
 
     <script>
-		const csrfToken = document.querySelector('meta[name="_csrf"]').content;
-		const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
-		console.log("CSRF Token:", csrfToken);
-		console.log("CSRF Header:", csrfHeader);
-
         const modal = document.getElementById("editModal");
 
         function editTask(id) {
@@ -173,85 +402,68 @@
             modal.style.display = "none";
         }
 
-		function saveTask() {
-		    const id = document.getElementById("editTaskId").value;
-		    const title = document.getElementById("editTitle").value;
-		    const description = document.getElementById("editDescription").value;
-		    const deadline = document.getElementById("editDeadline").value;
-		    const category = document.getElementById("editCategory").value;
-		    const priority = document.getElementById("editPriority").value;
+        function saveTask() {
+            const id = document.getElementById("editTaskId").value;
+            const title = document.getElementById("editTitle").value;
+            const description = document.getElementById("editDescription").value;
+            const deadline = document.getElementById("editDeadline").value;
+            const category = document.getElementById("editCategory").value;
+            const priority = document.getElementById("editPriority").value;
 
-		    const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+            const csrfToken = document.querySelector('meta[name="_csrf"]').content;
 
-		    fetch(`/task/update/${id}`, {
-		        method: "POST",
-		        headers: {
-		            "Content-Type": "application/json",
-		            "X-CSRF-TOKEN": csrfToken // CSRF token is included in headers
-		        },
-		        body: JSON.stringify({ title, description, deadline, category, priority })
-		    })
-		    .then(response => {
-		        if (response.ok) {
-		            alert("Task updated successfully!");
-		            location.reload();
-		        } else {
-		            alert("Failed to update task.");
-		        }
-		    })
-		    .catch(error => console.error("Error updating task:", error))
-		    .finally(() => closeModal());
-		}
+            fetch(`/task/update/${id}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": csrfToken
+                },
+                body: JSON.stringify({ title, description, deadline, category, priority })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("Task updated successfully!");
+                    location.reload();
+                } else {
+                    alert("Failed to update task.");
+                }
+            })
+            .catch(error => console.error("Error updating task:", error))
+            .finally(() => closeModal());
+        }
+
+        function updateCompletionStatus(id) {
+            const checkbox = document.getElementById("completed-" + id);
+            const completed = checkbox.checked;
+
+            const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+            const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+
+            fetch(`/task/update-completed/${id}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    [csrfHeader]: csrfToken
+                },
+                body: JSON.stringify({ completed })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => { throw new Error(text); });
+                }
+                location.reload();
+            })
+            .catch(error => console.error("Error updating task status:", error));
+        }
 		
-		function updateCompletionStatus(id) {
-		            const checkbox = document.getElementById("completed-" + id);
-		            const completed = checkbox.checked;
-
-		            console.log("Updating completion status for task ID:", id, "to:", completed);
-
-		            // Retrieve CSRF token and header name from meta tags
-		            const csrfTokenElement = document.querySelector('meta[name="_csrf"]');
-		            const csrfHeaderElement = document.querySelector('meta[name="_csrf_header"]');
-
-		            if (!csrfTokenElement || !csrfHeaderElement) {
-		                console.error("CSRF token or header meta tag is missing in the HTML!");
-		                return;
-		            }
-
-		            const csrfToken = csrfTokenElement.content;
-		            const csrfHeader = csrfHeaderElement.content;
-
-		            console.log("CSRF Token:", csrfToken);
-		            console.log("CSRF Header:", csrfHeader);
-
-		            if (!csrfToken || !csrfHeader) {
-		                console.error("CSRF token or header value is empty!");
-		                return;
-		            }
-
-		            // Create headers object
-		            const headers = {
-		                "Content-Type": "application/json",
-		                [csrfHeader]: csrfToken // Dynamically set the CSRF header
-		            };
-
-		            console.log("Headers:", headers);
-
-		            fetch(`/task/update-completed/${id}`, {
-		                method: "POST",
-		                headers: headers,
-		                body: JSON.stringify({ completed })
-		            })
-		            .then(response => {
-		                if (!response.ok) {
-		                    return response.text().then(text => { throw new Error(text); });
-		                }
-		                console.log("Task status updated successfully.");
-		                location.reload(); // Reload the page to reflect the updated state
-		            })
-		            .catch(error => console.error("Error updating task status:", error));
+		function confirmDelete(event, element) {
+		        event.preventDefault(); // Prevent immediate deletion
+		        let confirmation = confirm("Are you sure you want to delete this task?");
+		        if (confirmation) {
+		            window.location.href = element.href; // Proceed with deletion
 		        }
-
+		    }
+			
     </script>
 </body>
 </html>
