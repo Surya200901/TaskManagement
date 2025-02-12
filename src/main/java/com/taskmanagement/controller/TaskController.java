@@ -40,9 +40,23 @@ public class TaskController {
 
         User user = userOptional.get();
         List<Task> tasks = taskService.getAllTasksForUser(user);
+
+        int totalTasks = tasks.size();
+        int completedTasks = (int) tasks.stream().filter(Task::isCompleted).count();
+        int pendingTasks = totalTasks - completedTasks;
+        
+        // Calculate progress percentage
+        int progress = (totalTasks > 0) ? (completedTasks * 100) / totalTasks : 0;
+
         model.addAttribute("tasks", tasks);
+        model.addAttribute("totalTasks", totalTasks);
+        model.addAttribute("completedTasks", completedTasks);
+        model.addAttribute("pendingTasks", pendingTasks);
+        model.addAttribute("progress", progress);
+
         return "task";
     }
+
 
     // Create a new task
     @PostMapping("/create")

@@ -26,20 +26,30 @@ public class DashboardController {
     private TaskService taskService; // Inject TaskService
 
     @GetMapping("/dashboard")
-    public String dashboard(Model model) {
+    public String showDashboard(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-
-        Optional<User> userOptional = userService.findByUsername(username);
-        if (!userOptional.isPresent()) {
-            throw new RuntimeException("User not found");
+        
+        if (authentication != null && authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
+            String username = authentication.getName(); // Get logged-in username
+            Optional<User> optionalUser = userService.findByUsername(username); // Fetch user details
+            
+            if (optionalUser.isPresent()) {
+                User user = optionalUser.get();
+                model.addAttribute("user", user);
+            }
         }
 
-        User user = userOptional.get();
-        List<Task> tasks = taskService.getAllTasksForUser(user);
+        List<Task> tasks = taskService.getAllTasks();
+        long totalTasks = tasks.size();
+        long completedTasks = tasks.stream().filter(Task::isCompleted).count();
+        long pendingTasks = totalTasks - completedTasks;
+        int progress = totalTasks == 0 ? 0 : (int) ((completedTasks * 100) / totalTasks);
 
-        model.addAttribute("user", user); // Add this line to fix the issue
         model.addAttribute("tasks", tasks);
+        model.addAttribute("totalTasks", totalTasks);
+        model.addAttribute("completedTasks", completedTasks);
+        model.addAttribute("pendingTasks", pendingTasks);
+        model.addAttribute("progress", progress);
 
         return "dashboard";
     }

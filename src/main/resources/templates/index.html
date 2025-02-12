@@ -6,253 +6,250 @@
     <title>Task Management System</title>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
-		/* Global Styling */
-		        body {
-		            font-family: 'Arial', sans-serif;
-		            margin: 0;
-		            padding: 0;
-		            background: #f4f4f9;
-		            color: #333;
-		            text-align: center;
-		        }
+        /* Global Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f9;
+            color: #333;
+            text-align: center;
+        }
 
-		        /* Header */
-		        header {
-		            background: #007bff;
-		            color: white;
-		            padding: 20px;
-		            display: flex;
-		            justify-content: space-between;
-		            align-items: center;
-		            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-		        }
+        /* Header */
+        header {
+            background: #6690e3;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
 
-		        header h1 {
-		            margin: 0;
-		            font-size: 28px;
-		        }
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
 
-		        nav {
-		            display: flex;
-		            gap: 20px;
-		        }
+        nav {
+            display: flex;
+            gap: 20px;
+        }
 
-		        .btn {
-		            background: white;
-		            color: #007bff;
-		            padding: 10px 20px;
-		            text-decoration: none;
-		            border-radius: 5px;
-		            font-weight: bold;
-		            transition: 0.3s;
-		        }
+        .btn {
+            background: white;
+            color: #007bff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
 
-		        .btn:hover {
-		            background: #0056b3;
-		            color: white;
-		        }
+        .btn:hover {
+            background: #0056b3;
+            color: white;
+        }
 
-		        /* Hero Section */
-		        .hero {
-		            display: flex;
-		            flex-direction: column;
-		            justify-content: center;
-		            align-items: center;
-		            padding: 80px 20px;
-		            background: linear-gradient(to right, #007bff, #0056b3);
-		            color: white;
-		            text-align: center;
-		        }
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 20px;
+            background: linear-gradient(to right, #007bff, #0056b3);
+            color: white;
+            text-align: center;
+        }
 
-		        .hero h2 {
-		            font-size: 36px;
-		            margin-bottom: 10px;
-		            animation: fadeInDown 1s ease-in-out;
-		        }
+        .hero h2 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            animation: fadeInDown 1s ease-in-out;
+        }
 
-		        .hero p {
-		            font-size: 18px;
-		            margin-bottom: 20px;
-		            animation: fadeInUp 1s ease-in-out;
-		        }
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-in-out;
+        }
 
-		        .hero-image img {
-		            width: 700px;
-					max-width: 100%;
-		            border-radius: 10px;
-		            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-		            transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
-		        }
+        .hero-image img {
+            width: 700px;
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+        }
 
-		        .hero-image img:hover {
-		            transform: scale(1.1);
-		            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.4);
-		        }
+        .hero-image img:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.4);
+        }
 
-		        .cta-btn {
-		            display: inline-block;
-		            background: #ffcc00;
-		            color: #333;
-		            padding: 12px 25px;
-		            font-size: 18px;
-		            text-decoration: none;
-		            border-radius: 5px;
-		            font-weight: bold;
-		            transition: 0.3s;
-					margin-bottom: 30px;
-		        }
+        .cta-btn {
+            display: inline-block;
+            background: #ffcc00;
+            color: #333;
+            padding: 12px 25px;
+            font-size: 18px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+            margin-bottom: 30px;
+        }
 
-		        .cta-btn:hover {
-		            background: #e6b800;
-		        }
+        .cta-btn:hover {
+            background: #e6b800;
+        }
 
-		        /* Features Section */
-		        .features {
-		            display: flex;
-		            justify-content: center;
-		            gap: 20px;
-		            flex-wrap: wrap;
-		            padding: 50px 20px;
-		            background: #fff;
-		        }
+        /* Features Section */
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            padding: 50px 20px;
+            background: #fff;
+        }
 
-		        .feature-card {
-		            background: white;
-		            padding: 20px;
-		            border-radius: 10px;
-		            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-		            text-align: center;
-		            max-width: 280px;
-		            transition: transform 0.3s, box-shadow 0.3s;
-		        }
+        .feature-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 280px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
 
-		        .feature-card:hover {
-		            transform: translateY(-10px);
-		            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
-		        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+        }
 
-		        .feature-card i {
-		            font-size: 40px;
-		            color: #007bff;
-		            margin-bottom: 10px;
-		        }
+        .feature-card i {
+            font-size: 40px;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
 
-		        .feature-card h3 {
-		            font-size: 22px;
-		            margin-bottom: 10px;
-		        }
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
 
-		        /* Teaser Section */
-		        .teaser {
-		            padding: 60px 20px;
-		            background: #f8f9fa;
-		            text-align: center;
-		        }
+        /* Teaser Section */
+        .teaser {
+            padding: 60px 20px;
+            background: #f8f9fa;
+            text-align: center;
+        }
 
-		        .teaser h2 {
-		            font-size: 32px;
-		            margin-bottom: 20px;
-		            color: #007bff;
-		            animation: fadeInDown 1s ease-in-out;
-		        }
+        .teaser h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #007bff;
+            animation: fadeInDown 1s ease-in-out;
+        }
 
-		        .teaser p {
-		            font-size: 18px;
-		            max-width: 600px;
-		            margin: 0 auto;
-		            color: #555;
-		            animation: fadeInUp 1s ease-in-out;
-		        }
+        .teaser p {
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
+            color: #555;
+            animation: fadeInUp 1s ease-in-out;
+        }
 
-		        .teaser img {
-		            margin-top: 20px;
-		            width: 450px;
-		            animation: zoomIn 1s ease-in-out;
-		        }
+        .teaser img {
+            margin-top: 20px;
+            width: 450px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+            animation: float 3s ease-in-out infinite;
+        }
 
-		        /* Contact Section */
-		        .contact {
-		            padding: 60px 20px;
-		            background: #fff;
-		            text-align: center;
-		        }
+        /* Floating Animation */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
 
-		        .contact h2 {
-		            font-size: 32px;
-		            margin-bottom: 20px;
-		            color: #007bff;
-		        }
+        /* Contact Section */
+        .contact {
+            padding: 60px 20px;
+            background: #fff;
+            text-align: center;
+        }
 
-		        .contact form {
-		            max-width: 500px;
-		            margin: 0 auto;
-		            display: flex;
-		            flex-direction: column;
-		            gap: 10px;
-		        }
+        .contact h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
 
-		        .contact input, .contact textarea {
-		            width: 100%;
-		            padding: 10px;
-		            border: 1px solid #ccc;
-		            border-radius: 5px;
-		            font-size: 16px;
-		        }
+        .contact form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
-		        .contact button {
-		            background: #007bff;
-		            color: white;
-		            padding: 12px;
-		            border: none;
-		            border-radius: 5px;
-		            font-size: 18px;
-		            cursor: pointer;
-		            transition: 0.3s;
-		        }
+        .contact input, .contact textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
 
-		        .contact button:hover {
-		            background: #0056b3;
-		        }
+        .contact button {
+            background: #007bff;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
 
-		        .google-form-link {
-		            display: inline-block;
-		            margin-top: 15px;
-		            color: #007bff;
-		            font-size: 18px;
-		            font-weight: bold;
-		            text-decoration: none;
-		            border-bottom: 2px solid #007bff;
-		            transition: 0.3s;
-		        }
+        .contact button:hover {
+            background: #0056b3;
+        }
 
-		        .google-form-link:hover {
-		            color: #0056b3;
-		            border-bottom: 2px solid #0056b3;
-		        }
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            padding: 10px;
+            margin-top: 20px;
+        }
 
-		        /* Footer */
-		        footer {
-		            background: #333;
-		            color: white;
-		            padding: 10px;
-		            margin-top: 20px;
-		        }
-				
-				.features h2 {
-				    font-size: 32px;
-				    color: #007bff;
-				    margin-bottom: 10px;
-				}
-				.features p {
-				    font-size: 18px;
-				    color: #555;
-				    max-width: 600px;
-				}
-				
-				.features h2, .features p {
-				    text-align: center;
-				    width: 100%;
-				}
+        .features h2 {
+            font-size: 32px;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        .features p {
+            font-size: 18px;
+            color: #555;
+            max-width: 600px;
+        }
+
+        .features h2, .features p {
+            text-align: center;
+            width: 100%;
+        }
 
         /* Animations */
         @keyframes fadeInDown {
@@ -307,7 +304,7 @@
     </section>
 
     <section class="features">
-		<h2>Why Choose Task Management?</h2>
+        <h2>Why Choose Task Management?</h2>
         <div class="feature-card">
             <i class="fas fa-tasks"></i>
             <h3>Task Tracking</h3>
@@ -319,9 +316,9 @@
             <p>Never miss an important task with timely alerts.</p>
         </div>
         <div class="feature-card">
-            <i class="fas fa-users"></i>
-            <h3>Team Collaboration</h3>
-            <p>Work together seamlessly with your team.</p>
+            <i class="fas fa-tasks"></i>
+            <h3>Daily Task Management</h3>
+            <p>Organize, prioritize, and track your daily tasks efficiently.</p>
         </div>
     </section>
 
@@ -330,47 +327,45 @@
         <p>Stay on top of your work with real-time updates and easy task tracking.</p>
         <img src="https://cdn.corporatefinanceinstitute.com/assets/time-management.jpg" alt="Productivity Teaser">
     </section>
-	
-	<section class="contact">
-	    <h2>Contact Us</h2>
-	    <form id="contactForm">
-	        <input type="text" name="entry.1450960038" id="name" placeholder="Your Name" required>
-	        <input type="email" name="entry.1466471385" id="email" placeholder="Your Email" required>
-	        <textarea name="entry.143076094" id="message" placeholder="Your Message" rows="5" required></textarea>
-	        <button type="submit">Send Message</button>
-	    </form>
-	    <p id="successMessage" style="color: green; display: none; font-weight: bold;">Message Sent Successfully!</p>
-	</section>
+
+    <section class="contact">
+        <h2>Contact Us</h2>
+        <form id="contactForm">
+            <input type="text" name="entry.1450960038" id="name" placeholder="Your Name" required>
+            <input type="email" name="entry.1466471385" id="email" placeholder="Your Email" required>
+            <textarea name="entry.143076094" id="message" placeholder="Your Message" rows="5" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+        <p id="successMessage" style="color: green; display: none; font-weight: bold;">Message Sent Successfully!</p>
+    </section>
 
     <footer>
         <p>Task Management System © 2025 | Designed for Efficiency</p>
     </footer>
 
-</body>
+    <script>
+        document.getElementById("contactForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent default form submission
 
-<script>
-    document.getElementById("contactForm").addEventListener("submit", function(event) {
-        event.preventDefault(); // Prevent default form submission
+            // Collect form data
+            let formData = new FormData(this);
 
-        // Collect form data
-        let formData = new FormData(this);
+            // Submit form data to Google Forms
+            fetch("https://docs.google.com/forms/d/e/1FAIpQLSfbp6dZAzjlwxu_n4OCXCeG5fbMkGr2O0mjiuAAda4itFbDwQ/formResponse", {
+                method: "POST",
+                body: formData,
+                mode: "no-cors" // Required for Google Forms
+            }).then(() => {
+                // Show success message
+                document.getElementById("successMessage").style.display = "block";
 
-        // Submit form data to Google Forms
-        fetch("https://docs.google.com/forms/d/e/1FAIpQLSfbp6dZAzjlwxu_n4OCXCeG5fbMkGr2O0mjiuAAda4itFbDwQ/formResponse", {
-            method: "POST",
-            body: formData,
-            mode: "no-cors" // Required for Google Forms
-        }).then(() => {
-            // Show success message
-            document.getElementById("successMessage").style.display = "block";
-
-            // Clear form fields
-            document.getElementById("contactForm").reset();
-        }).catch(error => {
-            alert("Failed to send message. Please try again.");
-            console.error("Error:", error);
+                // Clear form fields
+                document.getElementById("contactForm").reset();
+            }).catch(error => {
+                alert("Failed to send message. Please try again.");
+                console.error("Error:", error);
+            });
         });
-    });
-</script>
-
+    </script>
+</body>
 </html>
